@@ -8,6 +8,8 @@
 - Incident Reporting: Users can report incidents (e.g., safety concerns) in their neighborhood groups.
 - Event Participation: Users can view and join local events organized within their groups.
 
+![alt text](image.png)
+
 The application uses a many-to-many relational structure for managing users' relationships with neighborhood groups, events, and messages, ensuring that users can interact effectively within their communities.
 
 ## Techniques
