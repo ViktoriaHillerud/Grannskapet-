@@ -1,17 +1,24 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include 'crud.php';
+session_start();
+
+include 'db.php';
+include 'User.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$user = new User($db);
 
 if (isset($_POST["register"])) {
     session_unset();
-    
+
     if (empty($_POST["userName"]) || empty($_POST["email"]) || empty($_POST["password"])) {
         $message = "<center><h1>Fyll i alla fält för att fortsätta!</h1></center>";
     } else {
-        $id = register($_POST["userName"], $_POST["email"], $_POST["password"]);
+        $id = $user->register($_POST["userName"], $_POST["email"], $_POST["password"]);
         if ($id) {
-            // Set the userName and id in the session
             $_SESSION["userName"] = $_POST["userName"];
             $_SESSION["id"] = $id;
 
@@ -22,8 +29,6 @@ if (isset($_POST["register"])) {
         }
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +37,6 @@ if (isset($_POST["register"])) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Register</title>
-	
 </head>
 <body>
 	<div class="wrapper">
@@ -49,10 +53,8 @@ if (isset($_POST["register"])) {
 		<label for="password">Lösenord</label>
 		<input type="text" name="password" id="password">
 		</div>
-	
 		<button type="submit" name="register">Registrera</button>
 	</form>
 	</div>
-	
 </body>
 </html>

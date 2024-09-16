@@ -1,8 +1,18 @@
 <?php
-include 'crud.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+session_start();
+
+include 'db.php';
+include 'User.php';
+
+$database = new Database();
+$db = $database->getConnection();
+
+$user = new User($db);
 
 if(isset($_SESSION["userName"])) {
-	header("Location: index.php");
+    header("Location: index.php");
     exit();
 } 
 
@@ -10,9 +20,10 @@ if (isset($_POST["login"])) {
     if (empty($_POST["userName"]) || empty($_POST["password"])) {
         echo "<center><h1>Please fill all the fields</h1></center>";
     } else {
-        $user = login($_POST["userName"], $_POST["password"]);
-        if ($user) {
-            $_SESSION["userName"] = $user['userName'];
+        $userDetails = $user->login($_POST["userName"], $_POST["password"]);
+        if ($userDetails) {
+            $_SESSION["userName"] = $userDetails['userName'];
+            $_SESSION["id"] = $userDetails['id'];
             header("Location: index.php");
             exit();
         } else {
@@ -20,8 +31,6 @@ if (isset($_POST["login"])) {
         }
     }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +39,6 @@ if (isset($_POST["login"])) {
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Login</title>
-	
 </head>
 <body>
 	<div class="wrapper">
@@ -43,10 +51,8 @@ if (isset($_POST["login"])) {
 		<label for="password">Lösenord</label>
 		<input type="text" name="password" id="password">
 		</div>
-	
 		<button type="submit" name="login">Login</button>
 	</form>
 	</div>
-	
 </body>
 </html>
