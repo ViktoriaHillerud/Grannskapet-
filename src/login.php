@@ -24,6 +24,7 @@ if (isset($_POST["login"])) {
         if ($userDetails) {
             $_SESSION["userName"] = $userDetails['userName'];
             $_SESSION["id"] = $userDetails['id'];
+			$_SESSION["role"] = $userDetails['role'];
             header("Location: index.php");
             exit();
         } else {
@@ -38,6 +39,7 @@ if (isset($_POST["login"])) {
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="CSS/index.css">
 	<title>Login</title>
 </head>
 <body>
@@ -49,7 +51,7 @@ if (isset($_POST["login"])) {
 		</div>
 		<div>
 		<label for="password">Lösenord</label>
-		<input type="text" name="password" id="password">
+		<input type="password" name="password" id="password">
 		</div>
 		<button type="submit" name="login">Login</button>
 	</form>

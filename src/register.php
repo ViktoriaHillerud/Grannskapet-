@@ -17,10 +17,12 @@ if (isset($_POST["register"])) {
     if (empty($_POST["userName"]) || empty($_POST["email"]) || empty($_POST["password"])) {
         $message = "<center><h1>Fyll i alla fält för att fortsätta!</h1></center>";
     } else {
-        $id = $user->register($_POST["userName"], $_POST["email"], $_POST["password"]);
+        $id = $user->register($_POST["userName"], $_POST["email"], $_POST["password"], $_POST["role"]);
         if ($id) {
             $_SESSION["userName"] = $_POST["userName"];
+			$_SESSION["role"] = $_POST["role"];
             $_SESSION["id"] = $id;
+
 
             header("Location: index.php");
             exit();
@@ -52,6 +54,7 @@ if (isset($_POST["register"])) {
 		<div>
 		<label for="password">Lösenord</label>
 		<input type="text" name="password" id="password">
+		<input type="hidden" name="role" id="role" value="1">
 		</div>
 		<button type="submit" name="register">Registrera</button>
 	</form>

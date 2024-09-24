@@ -26,7 +26,7 @@ class User {
         }
     }
 
-    public function register($userName, $email, $pass) {
+    public function register($userName, $email, $pass, $role) {
         if ($this->userExists($email)) {
             echo "User " . htmlspecialchars($email) . " already exists.";
             return;
@@ -39,12 +39,13 @@ class User {
         try {
             $this->conn->beginTransaction();
 
-            $query = "INSERT INTO users (userName, email, pass) 
-                      VALUES (:userName, :email, :hashedPassword)";
+            $query = "INSERT INTO users (userName, email, pass, role) 
+                      VALUES (:userName, :email, :hashedPassword, :role)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":userName", $userName);
             $stmt->bindParam(":email", $email);
             $stmt->bindParam(":hashedPassword", $hashedPassword);
+			$stmt->bindParam(":role", $role);
             $stmt->execute();
 
             $userId = $this->conn->lastInsertId();

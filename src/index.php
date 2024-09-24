@@ -6,7 +6,7 @@ include_once 'Message.php';
 include_once 'Neighbourgroup.php';
 include_once 'Incident.php';  
 include_once 'Event.php';    
-g
+
 $db = new Database();
 $conn = $db->getConnection();
 
@@ -38,6 +38,18 @@ if (isset($_SESSION['userName'])) {
         <?php include 'assets/logo.svg'; ?>
         <span class="header-span">. . . din bostadsförening</span>
     </header>
+
+	<?php 
+if (isset($_SESSION["role"]) && $_SESSION["role"] === 0): ?>
+    <article class="welcome">
+		<span>Välkommen, admin!</span>
+		<button class="admin-btn"><a href='admin.php'>Adminpanel</a></button>
+	</article>
+<?php elseif (isset($_SESSION["userName"])): ?>
+    <article>Välkommen, <?php echo htmlspecialchars($_SESSION["userName"]); ?>!</article>
+<?php else: '' ?>
+<?php endif; ?>
+
 
     <?php if (isset($_SESSION["userName"])): ?>
         <section class="home-section">

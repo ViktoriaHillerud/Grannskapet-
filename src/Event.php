@@ -6,15 +6,15 @@ class Event {
         $this->conn = $dbConnection;
     }
 
-    public function createEvent($eventName, $time, $place, $userId) {
+    public function createEvent($eventName, $time, $place, $id) {
         try {
             $query = "INSERT INTO events (EventName, time, place, user_id) 
-                      VALUES (:eventName, :time, :place, :userId)";
+                      VALUES (:eventName, :time, :place, :id)";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(":eventName", $eventName);
             $stmt->bindParam(":time", $time);
             $stmt->bindParam(":place", $place);
-            $stmt->bindParam(":userId", $userId);
+            $stmt->bindParam(":id", $id);
             $stmt->execute();
         } catch (PDOException $error) {
             echo "Error: " . $error->getMessage();
